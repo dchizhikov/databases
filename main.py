@@ -86,7 +86,7 @@ def show_tables(connection):
 # Параметры подключения
 ssh_host = 'u96142.ssh.masterhost.ru'  # SSH сервер
 ssh_user = 'u96142'                     # Логин SSH
-ssh_password = 'coequine5t'                       # Пароль SSH
+ssh_password = os.environ['ssh_password']
 remote_bind_address = ('u96142.mysql.masterhost.ru', 3306)  # Адрес вашего MySQL сервера
 local_bind_port = 3306                   # Локальный порт для туннеля
 
@@ -96,7 +96,7 @@ ssh_client = create_ssh_tunnel(ssh_host, ssh_user, ssh_password, remote_bind_add
 if ssh_client:
     # Подключение к базе данных через туннель
   # Подключение к базе данных через туннель (используем локальный адрес и порт 3307)
-    db_connection = connect_to_database('127.0.0.1', 'u96142', 'rE_iO9i4.s', 'u96142_sushi', 3306)  # Указываем порт 3307
+    db_connection = connect_to_database('127.0.0.1', 'u96142', os.environ['db_password'], 'u96142_sushi', 3306)  # Указываем порт 3307
 
     if db_connection is not None:
         show_tables(db_connection)
