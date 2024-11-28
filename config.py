@@ -6,10 +6,10 @@ folder_name = os.path.basename(directory_path)
 parent_directory_path = os.path.dirname(directory_path)
 
 user_name = "dchizhikov"
-repo_name_git = "git"
+repo_name_git = "databases"
 
 repo_up = parent_directory_path
-repo_name = "git" #['git', 'UML', 'databases', 'Telegram', 'tg_bot']
+repo_name = "databases" #['git', 'UML', 'databases', 'Telegram', 'tg_bot']
 myRepo = repo_up + '/'+repo_name
 
 repo_url = "https://github.com/"+user_name+"/"+repo_name

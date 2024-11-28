@@ -1,4 +1,4 @@
-import git.config as config
+import databases.config as config
 import importlib
 import os
 
@@ -96,7 +96,7 @@ ssh_client = create_ssh_tunnel(ssh_host, ssh_user, ssh_password, remote_bind_add
 if ssh_client:
     # Подключение к базе данных через туннель
   # Подключение к базе данных через туннель (используем локальный адрес и порт 3307)
-    db_connection = connect_to_database('127.0.0.1', 'u96142', os.environ['db_password'], 'u96142_sushi', 3306)  # Указываем порт 3307
+    db_connection = connect_to_database('127.0.0.1', 'u96142', os.environ['db_password'], 'u96142_sushi', 3306)
 
     if db_connection is not None:
         show_tables(db_connection)
@@ -120,7 +120,7 @@ if ssh_client:
             finally:
                 cursor.close()
 
-        fetch_all_from_table(db_connection, 'metro')  # Замените 'metro' на нужное имя таблицы
+        fetch_all_from_table(db_connection, 'metro')
 
         db_connection.close()  # Закрываем соединение после выполнения запроса
 
