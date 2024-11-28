@@ -1,0 +1,46 @@
+@startuml
+'title Выгрузка кода из GitHub
+
+participant User
+participant GitHub as "GitHub"
+participant LocalRepo as "Репо (локал.)"
+
+User -> GitHub: Создание репозитория по шаблону
+activate GitHub
+GitHub -> User: Репозиторий успешно создан
+deactivate GitHub
+
+User -> LocalRepo: git clone <URL>
+activate LocalRepo
+LocalRepo -> GitHub: Запрос на клонирование репозитория
+activate GitHub
+GitHub -> LocalRepo: Отправка содержимого репозитория
+deactivate GitHub
+LocalRepo -> User: Локальная копия репозитория создана
+deactivate LocalRepo
+
+User -> LocalRepo: git remote add origin_451F <URL>
+activate LocalRepo
+LocalRepo -> GitHub: Запрос на добавление удалённого репозитория
+deactivate LocalRepo
+
+User -> LocalRepo: git pull origin_451F main
+activate LocalRepo
+LocalRepo -> GitHub: Запрос на получение изменений
+activate GitHub
+GitHub -> LocalRepo: Отправка изменений
+deactivate GitHub
+LocalRepo -> User: Локальная копия обновлена
+
+User -> LocalRepo: Внести изменения в код
+User -> LocalRepo: git add .
+User -> LocalRepo: git commit -m "Сообщение о коммите"
+User -> LocalRepo: git push origin_451F main
+activate LocalRepo
+LocalRepo -> GitHub: Запрос на отправку изменений
+activate GitHub
+GitHub -> LocalRepo: Подтверждение изменений
+deactivate GitHub
+LocalRepo -> User: Изменения успешно отправлены на GitHub
+deactivate LocalRepo
+@enduml
