@@ -3,7 +3,6 @@ import importlib
 import os
 
 print("Начало")
-
 folder_modules = 'modules'
 folder_modules_path = config.myRepo+'/' +folder_modules
 modules_list = [os.path.splitext(file)[0] for file in os.listdir(folder_modules_path) if file.endswith('.py')]
@@ -19,23 +18,7 @@ for module in modules_list:
 gc = imported_modules['git_com']
 ssh = imported_modules['ssh']
 mysql = imported_modules['mysql']
-
-
-def show_tables(connection):
-  """Функция для отображения всех таблиц в базе данных."""
-  try:
-      cursor = connection.cursor()
-      cursor.execute("SHOW TABLES;")
-
-      tables = cursor.fetchall()
-      print("Существующие таблицы:")
-      for table in tables:
-          print(table[0])  # Печатаем имя каждой таблицы
-
-  except Error as e:
-      print(f"Ошибка при выполнении запроса: {e}")
-
-  finally: cursor.close()
+sql = imported_modules['sql']
 
 # Параметры подключения
 ssh_host = 'u96142.ssh.masterhost.ru'  # SSH сервер
@@ -52,31 +35,10 @@ if ssh_client:
     db_connection = mysql.connect_to_database('127.0.0.1', 'u96142', os.environ['db_password'], 'u96142_sushi', 3306)
 
     if db_connection is not None:
-        show_tables(db_connection)
-        # Выполнение запроса SELECT * FROM metro
-        def fetch_all_from_table(connection, table_name):
-            """Функция для получения всех записей из указанной таблицы."""
-            try:
-                cursor = connection.cursor()
-                cursor.execute(f"SELECT * FROM {table_name}")
+        sql.show_tables(db_connection)
+        sql.fetch_all_from_table(db_connection, 'metro')
 
-                # Получаем все строки результата
-                rows = cursor.fetchall()
+        db_connection.close()
 
-                print(f"Записи из таблицы {table_name}:")
-                for row in rows:
-                    print(row)
-
-            except Error as e:
-                print(f"Ошибка при выполнении запроса: {e}")
-
-            finally:
-                cursor.close()
-
-        fetch_all_from_table(db_connection, 'metro')
-
-        db_connection.close()  # Закрываем соединение после выполнения запроса
-
-    ssh_client.close()  # Закрываем SSH-туннель
-
+    ssh_client.close()
 print("Конец")
