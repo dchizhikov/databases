@@ -20,3 +20,19 @@ def connect_to_database(host, user, password, database, port):
   except Error as e:
       print(f"Ошибка при подключении к базе данных: {e}")
       return None
+
+def show_tables(connection):
+  """Функция для отображения всех таблиц в базе данных."""
+  try:
+      cursor = connection.cursor()
+      cursor.execute("SHOW TABLES;")
+
+      tables = cursor.fetchall()
+      print("Существующие таблицы:")
+      for table in tables:
+          print(table[0])  # Печатаем имя каждой таблицы
+
+  except Error as e:
+      print(f"Ошибка при выполнении запроса: {e}")
+
+  finally: cursor.close()
